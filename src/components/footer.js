@@ -24,14 +24,14 @@ export const Footer = () => {
 
           {/* Links Section */}
           <div className="flex items-center space-x-6">
-            <a
-              href="https://github.com/yourusername"
-              className="text-sm text-secondary-400 hover:text-primary-400 transition-colors"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              GitHub
-            </a>
+              <a
+                href="https://github.com/mdtaufique-alam"
+                className="text-sm text-secondary-400 hover:text-primary-400 transition-colors"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                GitHub
+              </a>
             <a
               href="https://coingecko.com"
               className="text-sm text-secondary-400 hover:text-primary-400 transition-colors"
