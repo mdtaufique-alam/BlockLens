@@ -7,9 +7,11 @@ import { SideBar } from "./SideBar";
 import { Portfolio } from "./Portfolio";
 import { SearchBar } from "./SearchBar";
 import { Footer } from "./footer";
-import { useState } from "react";
+import { ThemeToggle } from "./ThemeToggle";
+import { useState, useContext } from "react";
 import Lottie from "lottie-react";
 import { Header } from "./Header";
+import { CryptoContext } from "../context/CryptoContext";
 import * as bitcoin from "../assets/92445-crypto-bitcoin.json";
 import * as success from "../assets/1127-success.json";
 
@@ -17,6 +19,7 @@ import * as success from "../assets/1127-success.json";
 function Dashboard() {
   const dispatch = useDispatch();
   const data = useSelector((state) => state.default);
+  const { theme } = useContext(CryptoContext);
   const [loading, setLoading] = useState(undefined);
   const [completed, setCompleted] = useState(undefined);
 
@@ -49,8 +52,17 @@ function Dashboard() {
   // Debug logging
   console.log("Dashboard state:", { loading, completed, coinListLength: data.coinList.length });
 
+  const getBackgroundClass = () => {
+    switch (theme) {
+      case "light":
+        return "min-h-screen bg-gradient-to-br from-slate-50 via-white to-gray-50";
+      default: // dark
+        return "min-h-screen bg-gradient-to-br from-dark-300 via-dark-200 to-dark-100";
+    }
+  };
+
   return (
-    <div className="min-h-screen bg-gradient-to-br from-dark-300 via-dark-200 to-dark-100">
+    <div className={getBackgroundClass()}>
       {!completed ? (
         <div className="min-h-screen flex items-center justify-center">
           <div className="text-center">
@@ -88,7 +100,8 @@ function Dashboard() {
               </div>
               
               {/* Sidebar */}
-              <div className="lg:col-span-1">
+              <div className="lg:col-span-1 space-y-6">
+                <ThemeToggle />
                 <SideBar />
               </div>
             </div>

@@ -18,6 +18,7 @@ export const CryptoProvider = ({ children }) => {
   const [searchData, setSearchData] = useState();
   const [coinSearch, setCoinSearch] = useState("");
   const [selectedCoinForChart, setSelectedCoinForChart] = useState("");
+  const [theme, setTheme] = useState("dark"); // dark, light, minimalist
  
   const getCryptoData = useCallback(async () => {
     try {
@@ -116,7 +117,9 @@ export const CryptoProvider = ({ children }) => {
         cryptoId,
         coinSearch,
         selectedCoinForChart,
-        setSelectedCoinForChart
+        setSelectedCoinForChart,
+        theme,
+        setTheme
       }}
     >
       {children}

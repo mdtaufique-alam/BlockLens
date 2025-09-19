@@ -8,7 +8,7 @@ Chart.register(...registerables);
 
 // Modern chart component with enhanced UX and professional styling
 export const CryptoChart = () => {
-  const { currency, cryptoId, selectedCoinForChart } = useContext(CryptoContext);
+  const { currency, cryptoId, selectedCoinForChart, theme } = useContext(CryptoContext);
   const [chartData, setChartData] = useState([]);
   const [days, setDays] = useState(7);
   const [id, setId] = useState("bitcoin");
@@ -19,8 +19,9 @@ export const CryptoChart = () => {
   // Update chart when a coin is selected from search
   useEffect(() => {
     if (selectedCoinForChart && selectedCoinForChart !== id) {
-      console.log("Search selected coin:", selectedCoinForChart, "Current chart ID:", id);
+      console.log("Chart updating from search - selectedCoinForChart:", selectedCoinForChart, "Current chart ID:", id);
       setId(selectedCoinForChart);
+      console.log("Chart ID updated to:", selectedCoinForChart);
     }
   }, [selectedCoinForChart, id]);
 
@@ -81,6 +82,33 @@ export const CryptoChart = () => {
     { label: "Bar Chart", value: "BarChart" },
     { label: "Horizontal Bar", value: "BarChartH" },
   ];
+
+  const getThemeClasses = () => {
+    switch (theme) {
+      case "light":
+        return {
+          container: "bg-white border-gray-300 text-gray-800 shadow-lg",
+          title: "text-gray-900",
+          subtitle: "text-gray-600",
+          select: "bg-white border-gray-400 text-gray-900 focus:ring-blue-500 focus:border-blue-500",
+          option: "text-gray-900 bg-white",
+          button: "bg-gray-100 text-gray-700 hover:bg-gray-200",
+          buttonActive: "bg-blue-600 text-white"
+        };
+      default: // dark
+        return {
+          container: "glass-card",
+          title: "text-white",
+          subtitle: "text-secondary-400",
+          select: "bg-white/10 border-white/20 text-white focus:ring-primary-500 focus:border-transparent",
+          option: "text-gray-600 bg-gray-800",
+          button: "text-secondary-400 hover:text-white hover:bg-white/10",
+          buttonActive: "bg-primary-500 text-white"
+        };
+    }
+  };
+
+  const classes = getThemeClasses();
 
   const handleTimeRange = (range) => {
     setDays(range.value);
@@ -234,7 +262,7 @@ export const CryptoChart = () => {
             }}
           >
             {chartTypes.map((type) => (
-              <option key={type.value} value={type.value} className="text-gray-600 bg-gray-800">
+              <option key={type.value} value={type.value} className={classes.option}>
                 {type.label}
               </option>
             ))}
@@ -254,7 +282,7 @@ export const CryptoChart = () => {
             }}
           >
             {cryptoId && Array.isArray(cryptoId) && cryptoId.map((d, k) => (
-              <option key={k} value={d.id} className="text-gray-600 bg-gray-800">
+              <option key={k} value={d.id} className={classes.option}>
                 {d.id.toUpperCase()}
               </option>
             ))}

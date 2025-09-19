@@ -1,7 +1,9 @@
-import React, { useEffect, useState, useCallback, useMemo } from 'react';
+import React, { useEffect, useState, useCallback, useMemo, useContext } from 'react';
+import { CryptoContext } from '../context/CryptoContext';
 
 // Modern cryptocurrency exchange component
 export const ExchangeCoins = () => {
+  const { theme } = useContext(CryptoContext);
   const [text1, settext1] = useState("");
   const [text2, settext2] = useState(0);
   const [units, setUnits] = useState("");
@@ -92,31 +94,66 @@ export const ExchangeCoins = () => {
     setUnits("");
   };
 
+  const getThemeClasses = () => {
+    switch (theme) {
+      case "light":
+        return {
+          container: "bg-white border-gray-300 text-gray-800 shadow-lg",
+          title: "text-gray-900",
+          subtitle: "text-gray-600",
+          label: "text-gray-700",
+          select: "bg-white border-gray-400 text-gray-900 focus:ring-blue-500 focus:border-blue-500",
+          input: "bg-white border-gray-400 text-gray-900 placeholder-gray-500 focus:ring-blue-500 focus:border-blue-500",
+          result: "bg-gray-50 border-gray-300 text-gray-900",
+          swap: "bg-gray-100 hover:bg-gray-200 text-gray-700",
+          option: "text-gray-900 bg-white",
+          info: "text-gray-500",
+          icon: "text-gray-500"
+        };
+      default: // dark
+        return {
+          container: "glass-card",
+          title: "text-white",
+          subtitle: "text-secondary-400",
+          label: "text-secondary-400",
+          select: "bg-white/10 border-white/20 text-white focus:ring-primary-500 focus:border-transparent",
+          input: "bg-white/10 border-white/20 text-white placeholder-secondary-400 focus:ring-primary-500 focus:border-transparent",
+          result: "bg-white/5 border-white/10 text-white",
+          swap: "bg-white/10 hover:bg-white/20 text-white",
+          option: "text-gray-600 bg-gray-800",
+          info: "text-secondary-500",
+          icon: "text-secondary-400"
+        };
+    }
+  };
+
+  const classes = getThemeClasses();
+
   return (
-    <div className="glass-card p-6">
+    <div className={`${classes.container} p-6`}>
       {/* Header */}
       <div className="flex items-center justify-between mb-6">
         <div>
-          <h3 className="text-xl font-display font-bold text-white mb-1">
+          <h3 className={`text-xl font-display font-bold mb-1 ${classes.title}`}>
             Currency Exchange
           </h3>
-          <p className="text-sm text-secondary-400">
+          <p className={`text-sm ${classes.subtitle}`}>
             Convert between cryptocurrencies
           </p>
         </div>
         <div className="flex items-center space-x-3">
           <button
             onClick={fetchExchangeRates}
-            className="p-1 hover:bg-white/10 rounded transition-colors"
+            className={`p-1 rounded transition-colors ${classes.swap}`}
             title="Refresh rates"
           >
-            <svg className="w-4 h-4 text-secondary-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg className={`w-4 h-4 ${classes.icon}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
             </svg>
           </button>
           <div className="flex items-center space-x-2">
             <div className="w-2 h-2 bg-primary-500 rounded-full animate-pulse"></div>
-            <span className="text-xs text-secondary-400 font-medium">Live Rates</span>
+            <span className={`text-xs font-medium ${classes.subtitle}`}>Live Rates</span>
           </div>
         </div>
       </div>
@@ -125,7 +162,7 @@ export const ExchangeCoins = () => {
       <div className="space-y-6">
         {/* From Currency */}
         <div className="space-y-2">
-          <label className="block text-sm text-secondary-400 font-medium">
+          <label className={`block text-sm font-medium ${classes.label}`}>
             From
           </label>
           <div className="flex items-center space-x-3">
@@ -133,7 +170,7 @@ export const ExchangeCoins = () => {
               <select
                 value={value1}
                 onChange={(e) => setvalue1(e.target.value)}
-                className="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent appearance-none cursor-pointer"
+                className={`w-full rounded-lg px-4 py-3 focus:outline-none focus:ring-2 appearance-none cursor-pointer ${classes.select}`}
                 style={{
                   backgroundImage: `url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='m6 8 4 4 4-4'/%3e%3c/svg%3e")`,
                   backgroundPosition: 'right 0.75rem center',
@@ -143,7 +180,7 @@ export const ExchangeCoins = () => {
                 }}
               >
                 {cryptoList.map((crypto, k) => (
-                  <option key={k} value={crypto.id} className="text-gray-600 bg-gray-800">
+                  <option key={k} value={crypto.id} className={classes.option}>
                     {crypto.name} ({crypto.symbol})
                   </option>
                 ))}
@@ -155,7 +192,7 @@ export const ExchangeCoins = () => {
                 placeholder="0.00"
                 value={text1 || ""}
                 onChange={(e) => settext1(e.target.value)}
-                className="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-3 text-white placeholder-secondary-400 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+                className={`w-full rounded-lg px-4 py-3 focus:outline-none focus:ring-2 ${classes.input}`}
               />
             </div>
           </div>
@@ -165,10 +202,10 @@ export const ExchangeCoins = () => {
         <div className="flex justify-center">
           <button
             onClick={swapCurrencies}
-            className="p-2 bg-white/10 hover:bg-white/20 rounded-full transition-colors"
+            className={`p-2 rounded-full transition-colors ${classes.swap}`}
             title="Swap currencies"
           >
-            <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg className={`w-5 h-5 ${classes.icon}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 16V4m0 0L3 8m4-4l4 4m6 0v12m0 0l4-4m-4 4l-4-4" />
             </svg>
           </button>
@@ -176,7 +213,7 @@ export const ExchangeCoins = () => {
 
         {/* To Currency */}
         <div className="space-y-2">
-          <label className="block text-sm text-secondary-400 font-medium">
+          <label className={`block text-sm font-medium ${classes.label}`}>
             To
           </label>
           <div className="flex items-center space-x-3">
@@ -184,7 +221,7 @@ export const ExchangeCoins = () => {
               <select
                 value={value2}
                 onChange={(e) => setvalue2(e.target.value)}
-                className="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent appearance-none cursor-pointer"
+                className={`w-full rounded-lg px-4 py-3 focus:outline-none focus:ring-2 appearance-none cursor-pointer ${classes.select}`}
                 style={{
                   backgroundImage: `url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='m6 8 4 4 4-4'/%3e%3c/svg%3e")`,
                   backgroundPosition: 'right 0.75rem center',
@@ -194,14 +231,14 @@ export const ExchangeCoins = () => {
                 }}
               >
                 {cryptoList.map((crypto, k) => (
-                  <option key={k} value={crypto.id} className="text-gray-600 bg-gray-800">
+                  <option key={k} value={crypto.id} className={classes.option}>
                     {crypto.name} ({crypto.symbol})
                   </option>
                 ))}
               </select>
             </div>
             <div className="w-24">
-              <div className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-white">
+              <div className={`w-full rounded-lg px-4 py-3 ${classes.result}`}>
                 {loading ? (
                   <div className="flex items-center justify-center">
                     <div className="w-4 h-4 border-2 border-primary-500 border-t-transparent rounded-full animate-spin"></div>
@@ -221,13 +258,13 @@ export const ExchangeCoins = () => {
           <div className="bg-gradient-to-r from-primary-500/10 to-accent-500/10 border border-primary-500/20 rounded-lg p-4">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm text-secondary-400">Exchange Rate</p>
-                <p className="text-lg font-semibold text-white">
+                <p className={`text-sm ${classes.subtitle}`}>Exchange Rate</p>
+                <p className={`text-lg font-semibold ${classes.title}`}>
                   {parseFloat(text2).toFixed(6)} {units}
                 </p>
               </div>
               <div className="text-right">
-                <p className="text-xs text-secondary-400">Rate</p>
+                <p className={`text-xs ${classes.subtitle}`}>Rate</p>
                 <p className="text-sm font-medium text-primary-400">
                   1 {cryptoList.find(c => c.id === value1)?.symbol} = {exchangeRates[value1] && exchangeRates[value2] ? 
                     ((exchangeRates[value2].usd / exchangeRates[value1].usd)).toFixed(6) : '0.000000'} {cryptoList.find(c => c.id === value2)?.symbol}
@@ -255,8 +292,8 @@ export const ExchangeCoins = () => {
       </div>
 
       {/* Exchange Info */}
-      <div className="mt-6 pt-4 border-t border-white/10">
-        <div className="flex items-center justify-between text-xs text-secondary-500">
+      <div className={`mt-6 pt-4 border-t ${theme === 'light' ? 'border-gray-200' : 'border-white/10'}`}>
+        <div className={`flex items-center justify-between text-xs ${classes.info}`}>
           <span>Powered by CoinGecko API</span>
           <span>Rates update every minute</span>
         </div>
