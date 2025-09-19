@@ -67,7 +67,7 @@ const SearchInput = ({ handleSearch }) => {
                   <div
                     key={coin.id}
                     className="flex items-center px-4 py-3 hover:bg-white/10 cursor-pointer transition-colors"
-                    onClick={() => selectCoin(coin.id)}
+                    onClick={() => selectCoin(coin)}
                   >
                     <img
                       className="w-8 h-8 rounded-full mr-3"
