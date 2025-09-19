@@ -13,12 +13,12 @@ export const Footer = () => {
               </svg>
             </div>
             <div>
-              <h3 className="text-lg font-display font-bold text-white">
-                CryptoPulse
-              </h3>
-              <p className="text-xs text-secondary-400">
-                Professional Trading Dashboard
-              </p>
+                  <h3 className="text-lg font-display font-bold text-white">
+                    BlockLens
+                  </h3>
+                  <p className="text-xs text-secondary-400">
+                    Cryptocurrency Analytics Dashboard
+                  </p>
             </div>
           </div>
 
@@ -67,9 +67,9 @@ export const Footer = () => {
         {/* Bottom Section */}
         <div className="mt-6 pt-6 border-t border-white/10">
           <div className="flex flex-col md:flex-row items-center justify-between space-y-2 md:space-y-0">
-            <p className="text-xs text-secondary-500">
-              © 2024 CryptoPulse. Built with ❤️ by you for the crypto community.
-            </p>
+                <p className="text-xs text-secondary-500">
+                  © 2024 BlockLens. Built with ❤️ by MD Taufique Alam for the crypto community.
+                </p>
             <div className="flex items-center space-x-4">
               <div className="flex items-center space-x-2">
                 <div className="w-2 h-2 bg-success rounded-full animate-pulse"></div>

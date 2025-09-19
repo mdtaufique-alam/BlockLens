@@ -24,12 +24,12 @@ export const Header = () => {
               </svg>
             </div>
             <div>
-              <h1 className="text-2xl font-display font-bold text-gradient">
-                CryptoPulse
-              </h1>
-              <p className="text-sm text-secondary-400 font-medium">
-                Professional Trading Dashboard
-              </p>
+                  <h1 className="text-2xl font-display font-bold text-gradient">
+                    BlockLens
+                  </h1>
+                  <p className="text-sm text-secondary-400 font-medium">
+                    Cryptocurrency Analytics Dashboard
+                  </p>
             </div>
           </div>
 

@@ -61,12 +61,12 @@ function Dashboard() {
                 <Lottie animationData={success} />
               )}
             </div>
-            <h2 className="text-2xl font-display font-bold text-white mb-2">
-              {!loading ? "Initializing Dashboard..." : "Welcome to CryptoPulse"}
-            </h2>
-            <p className="text-secondary-400">
-              {!loading ? "Loading market data..." : "Your professional crypto trading dashboard is ready!"}
-            </p>
+                <h2 className="text-2xl font-display font-bold text-white mb-2">
+                  {!loading ? "Initializing Dashboard..." : "Welcome to BlockLens"}
+                </h2>
+                <p className="text-secondary-400">
+                  {!loading ? "Loading market data..." : "Your professional cryptocurrency analytics dashboard is ready!"}
+                </p>
             <div className="mt-4 text-xs text-gray-500">
               Debug: Loading={loading?.toString()}, Completed={completed?.toString()}, Coins={data.coinList.length}
             </div>
