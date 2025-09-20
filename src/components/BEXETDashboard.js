@@ -9,16 +9,17 @@ Chart.register(...registerables);
 const BEXETDashboard = () => {
   const { cryptoData, currency } = useContext(CryptoContext);
   const [selectedTimeframe, setSelectedTimeframe] = useState('Daily');
-  const [portfolioBalance, setPortfolioBalance] = useState(12852.23);
-  const [balanceChange, setBalanceChange] = useState({ percentage: 16.3, direction: 'up' });
+  const [portfolioBalance] = useState(12852.23);
+  const [balanceChange] = useState({ percentage: 16.3, direction: 'up' });
   const [loading, setLoading] = useState(true);
   const [sparklineData, setSparklineData] = useState({});
+
 
   // Fetch sparkline data for cryptocurrencies
   useEffect(() => {
     const fetchSparklineData = async () => {
-      if (cryptoData && cryptoData.length > 0) {
-        try {
+      try {
+        if (cryptoData && cryptoData.length > 0) {
           const cryptoIds = cryptoData.slice(0, 10).map(crypto => crypto.id).join(',');
           const response = await fetch(
             `${API_CONFIG.BASE_URL}/coins/markets?vs_currency=${currency}&ids=${cryptoIds}&sparkline=true&x_cg_demo_api_key=${API_CONFIG.API_KEY}`
@@ -32,14 +33,24 @@ const BEXETDashboard = () => {
             });
             setSparklineData(sparklineMap);
           }
-        } catch (error) {
-          console.error('Error fetching sparkline data:', error);
+        } else {
+          // If no cryptoData, still set loading to false
+          setLoading(false);
         }
+      } catch (error) {
+        console.error('Error fetching sparkline data:', error);
+        setLoading(false);
       }
-      setLoading(false);
     };
 
+    // Set a timeout to ensure loading state is cleared
+    const timeout = setTimeout(() => {
+      setLoading(false);
+    }, 2000);
+
     fetchSparklineData();
+
+    return () => clearTimeout(timeout);
   }, [cryptoData, currency]);
 
   // Mock data for demonstration - in real app, this would come from API
@@ -240,6 +251,7 @@ const BEXETDashboard = () => {
     );
   };
 
+  // Show loading only for a short time
   if (loading) {
     return (
       <div className="min-h-screen bg-[#0A0B0D] text-white flex items-center justify-center">
@@ -252,10 +264,10 @@ const BEXETDashboard = () => {
   }
 
   return (
-    <div className="min-h-screen bg-[#0A0B0D] text-white">
+    <div className="min-h-screen bg-gray-900 text-white">
       <div className="flex flex-col lg:flex-row">
         {/* Sidebar */}
-        <div className="w-full lg:w-64 bg-[#13151A] lg:min-h-screen border-b lg:border-b-0 lg:border-r border-[#2A2D35]">
+        <div className="w-full lg:w-64 bg-gray-800 lg:min-h-screen border-b lg:border-b-0 lg:border-r border-gray-700">
           <div className="p-6">
             <h1 className="text-2xl font-bold text-white mb-8">BEXET</h1>
             <nav className="space-y-2 flex lg:flex-col overflow-x-auto lg:overflow-x-visible">
@@ -287,7 +299,7 @@ const BEXETDashboard = () => {
           {/* Portfolio Summary */}
           <div className="grid grid-cols-1 xl:grid-cols-3 gap-6 lg:gap-8 mb-8">
             {/* Portfolio Balance Card */}
-            <div className="xl:col-span-2 bg-[#13151A] rounded-xl p-4 lg:p-6 border border-[#2A2D35]">
+            <div className="xl:col-span-2 bg-gray-800 rounded-xl p-4 lg:p-6 border border-gray-700">
               <div className="flex items-center justify-between mb-6">
                 <h3 className="text-xl font-semibold text-white">Portfolio Balance</h3>
                 <div className="flex space-x-2">
@@ -328,7 +340,7 @@ const BEXETDashboard = () => {
             </div>
 
             {/* Asset Distribution */}
-            <div className="bg-[#13151A] rounded-xl p-4 lg:p-6 border border-[#2A2D35]">
+            <div className="bg-gray-800 rounded-xl p-4 lg:p-6 border border-gray-700">
               <h3 className="text-xl font-semibold text-white mb-6">Shares of Assets</h3>
               <div className="space-y-4">
                 {assetShares.map((asset, index) => (
@@ -359,14 +371,14 @@ const BEXETDashboard = () => {
           </div>
 
           {/* Cryptocurrency Table */}
-          <div className="bg-[#13151A] rounded-xl border border-[#2A2D35] overflow-hidden">
-            <div className="p-6 border-b border-[#2A2D35]">
+          <div className="bg-gray-800 rounded-xl border border-gray-700 overflow-hidden">
+            <div className="p-6 border-b border-gray-700">
               <h3 className="text-xl font-semibold text-white">Cryptocurrency Overview</h3>
             </div>
             
             <div className="overflow-x-auto">
               <table className="w-full">
-                <thead className="bg-[#1A1C22]">
+                <thead className="bg-gray-700">
                   <tr>
                     <th className="px-6 py-4 text-left text-sm font-medium text-[#9CA3AF]">Asset Name</th>
                     <th className="px-6 py-4 text-left text-sm font-medium text-[#9CA3AF]">Current Price</th>
@@ -378,12 +390,12 @@ const BEXETDashboard = () => {
                     <th className="px-6 py-4 text-left text-sm font-medium text-[#9CA3AF]">Action</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-[#2A2D35]">
+                <tbody className="divide-y divide-gray-700">
                   {cryptoData && cryptoData.length > 0 ? cryptoData.slice(0, 10).map((crypto, index) => (
-                    <tr key={crypto.id} className="hover:bg-[#1A1C22] transition-colors">
+                    <tr key={crypto.id} className="hover:bg-gray-700 transition-colors">
                       <td className="px-6 py-4">
                         <div className="flex items-center">
-                          <div className="w-8 h-8 bg-[#2A2D35] rounded-full flex items-center justify-center mr-3">
+                          <div className="w-8 h-8 bg-gray-600 rounded-full flex items-center justify-center mr-3">
                             <span className="text-xs font-bold text-white">
                               {crypto.symbol?.charAt(0) || '?'}
                             </span>
