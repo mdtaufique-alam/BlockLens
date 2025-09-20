@@ -1,124 +1,142 @@
 import React, { useContext } from "react";
+import paginationArrow from "../assets/pagination-arrow.svg";
 import { CryptoContext } from "../context/CryptoContext";
 
-// Modern pagination component
+
+//pagination component resides in the sidebar component 
 const Pagination = () => {
-  const { cryptoData, totalPages, page, setPage, perPage } = useContext(CryptoContext);
+  const { cryptoData } = useContext(CryptoContext);
+
+  const { totalPages, page, setPage, perPage } = useContext(CryptoContext);
 
   const TotalNumber = Math.ceil(totalPages / perPage);
 
   const next = () => {
-    if (page < TotalNumber) {
+    if (page === TotalNumber) {
+      return null;
+    } else {
       setPage(page + 1);
     }
   };
 
   const prev = () => {
-    if (page > 1) {
+    if (page === 1) {
+      return null;
+    } else {
       setPage(page - 1);
     }
   };
 
-  const goToPage = (pageNum) => {
-    if (pageNum >= 1 && pageNum <= TotalNumber) {
-      setPage(pageNum);
+  const multiStepNext = () => {
+    if (page + 3 >= TotalNumber) {
+      setPage(TotalNumber - 1);
+    } else {
+      setPage(page + 3);
     }
   };
 
-  // Don't show pagination if no data or less than one page
-  if (!cryptoData || cryptoData.length < perPage || TotalNumber <= 1) {
+  const multiStepPrev = () => {
+    if (page - 3 <= 1) {
+      setPage(TotalNumber + 1);
+    } else {
+      setPage(page - 2);
+    }
+  };
+
+  if (cryptoData && cryptoData.length >= perPage) {
+    return (
+      <div className="flex items-center justify-center">
+        <ul className="flex items-center justify-end text-sm">
+          <li className="flex items-center">
+            <button className="outline-0 hover:text-cyan w-8" onClick={prev}>
+              <img
+                className="w-full h-auto rotate-180"
+                src={paginationArrow}
+                alt="left"
+              />
+            </button>
+          </li>
+
+          {page - 1 !== TotalNumber && page === TotalNumber ? (
+            <li>
+              {" "}
+              <button
+                onClick={multiStepPrev}
+                className="ouline-0 hover:text-blue-300  rounded-full w-8 h-8 flex items-center justify-center text-lg    "
+              >
+                ...
+              </button>
+            </li>
+          ) : null}
+
+          {page - 1 !== 0 ? (
+            <li>
+              <button
+                onClick={prev}
+                className="ouline-0 hover:text-blue-300  rounded-full w-8 h-8 flex items-center justify-center bg-gray-200 mx-1.5"
+              >
+                {" "}
+                {page - 1}{" "}
+              </button>
+            </li>
+          ) : null}
+          <li>
+            <button
+              disabled
+              className="ouline-0 rounded-full w-8 h-8 flex items-center justify-center bg-blue-300 text-black mx-1.5"
+            >
+              {page}
+            </button>
+          </li>
+
+          {page + 1 !== TotalNumber && page !== TotalNumber ? (
+            <li>
+              <button
+                onClick={next}
+                className="ouline-0 hover:text-blue-300  rounded-full w-8 h-8 flex items-center justify-center bg-gray-200 mx-1.5"
+              >
+                {page + 1}
+              </button>
+            </li>
+          ) : null}
+
+          {page + 1 !== TotalNumber && page !== TotalNumber ? (
+            <li>
+              {" "}
+              <button
+                onClick={multiStepNext}
+                className="ouline-0 hover:text-blue-300  rounded-full w-8 h-8 flex items-center justify-center text-lg text-white"
+              >
+                ...
+              </button>
+            </li>
+          ) : null}
+
+          {page !== TotalNumber ? (
+            <li>
+              <button
+                onClick={() => setPage(TotalNumber)}
+                className="ouline-0 hover:text-blue-300  rounded-full w-8 h-8 flex items-center justify-center bg-gray-200 mx-1.5"
+              >
+                {TotalNumber}
+              </button>
+            </li>
+          ) : null}
+          <li>
+            <button className="outline-0 hover:text-cyan w-8" onClick={next}>
+              <img
+                className="w-full h-auto"
+                src={paginationArrow}
+                alt="right"
+              />
+            </button>
+          </li>
+        </ul>
+      </div>
+    );
+  } else {
     return null;
   }
-
-  // Generate page numbers to show
-  const getPageNumbers = () => {
-    const pages = [];
-    const maxVisible = 5;
-    
-    if (TotalNumber <= maxVisible) {
-      for (let i = 1; i <= TotalNumber; i++) {
-        pages.push(i);
-      }
-    } else {
-      if (page <= 3) {
-        for (let i = 1; i <= 4; i++) {
-          pages.push(i);
-        }
-        pages.push('...');
-        pages.push(TotalNumber);
-      } else if (page >= TotalNumber - 2) {
-        pages.push(1);
-        pages.push('...');
-        for (let i = TotalNumber - 3; i <= TotalNumber; i++) {
-          pages.push(i);
-        }
-      } else {
-        pages.push(1);
-        pages.push('...');
-        for (let i = page - 1; i <= page + 1; i++) {
-          pages.push(i);
-        }
-        pages.push('...');
-        pages.push(TotalNumber);
-      }
-    }
-    
-    return pages;
-  };
-
-  return (
-    <div className="flex items-center justify-between">
-      <div className="text-xs text-secondary-400">
-        Page {page} of {TotalNumber}
-      </div>
-      
-      <div className="flex items-center space-x-1">
-        {/* Previous Button */}
-        <button
-          onClick={prev}
-          disabled={page === 1}
-          className="p-2 rounded-lg bg-white/10 hover:bg-white/20 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
-          title="Previous page"
-        >
-          <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-          </svg>
-        </button>
-
-        {/* Page Numbers */}
-        <div className="flex items-center space-x-1">
-          {getPageNumbers().map((pageNum, index) => (
-            <button
-              key={index}
-              onClick={() => typeof pageNum === 'number' ? goToPage(pageNum) : null}
-              disabled={pageNum === '...'}
-              className={`px-3 py-2 text-sm rounded-lg transition-colors ${
-                pageNum === page
-                  ? 'bg-primary-500 text-white'
-                  : pageNum === '...'
-                  ? 'text-secondary-400 cursor-default'
-                  : 'bg-white/10 hover:bg-white/20 text-white'
-              }`}
-            >
-              {pageNum}
-            </button>
-          ))}
-        </div>
-
-        {/* Next Button */}
-        <button
-          onClick={next}
-          disabled={page === TotalNumber}
-          className="p-2 rounded-lg bg-white/10 hover:bg-white/20 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
-          title="Next page"
-        >
-          <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-          </svg>
-        </button>
-      </div>
-    </div>
-  );
 };
 
 export default Pagination;
