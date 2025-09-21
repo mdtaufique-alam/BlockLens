@@ -296,7 +296,9 @@ export const BexetDashboard = () => {
             <DashboardModeToggle />
             
             <div className="text-center">
-              <p className="text-sm text-gray-600">Good morning, Wilson</p>
+              <p className="text-sm text-gray-600">
+                Good {new Date().getHours() < 12 ? 'morning' : new Date().getHours() < 18 ? 'afternoon' : 'evening'}, Wilson
+              </p>
             </div>
             <div className="flex items-center space-x-2">
               <div className="relative">
@@ -373,11 +375,11 @@ export const BexetDashboard = () => {
             <h3 className={`text-lg font-semibold mb-4 ${classes.text}`}>My balance</h3>
             <div className="mb-4">
               <p className={`text-3xl font-bold ${classes.text}`}>
-                $12 852.23
+                ${portfolioData.balance.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
               </p>
               <div className="flex items-center mt-2">
                 <span className={`text-sm font-medium bg-gray-900 text-white px-2 py-1 rounded ${classes.positive}`}>
-                  ↑ +16,3%
+                  ↑ +{portfolioData.change}%
                 </span>
               </div>
             </div>
