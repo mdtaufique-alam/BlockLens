@@ -8,6 +8,8 @@ import { Portfolio } from "./Portfolio";
 import { SearchBar } from "./SearchBar";
 import { Footer } from "./footer";
 import { ThemeToggle } from "./ThemeToggle";
+import { DashboardModeToggle } from "./DashboardModeToggle";
+import { BexetDashboard } from "./BexetDashboard";
 import { useState, useContext } from "react";
 import Lottie from "lottie-react";
 import { Header } from "./Header";
@@ -19,7 +21,7 @@ import * as success from "../assets/1127-success.json";
 function Dashboard() {
   const dispatch = useDispatch();
   const data = useSelector((state) => state.default);
-  const { theme } = useContext(CryptoContext);
+  const { theme, dashboardMode } = useContext(CryptoContext);
   const [loading, setLoading] = useState(undefined);
   const [completed, setCompleted] = useState(undefined);
 
@@ -86,27 +88,33 @@ function Dashboard() {
         </div>
       ) : (
         <>
-          <Header />
-          <main className="container mx-auto px-6 py-8 relative">
-            <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
-              {/* Main Content Area */}
-              <div className="lg:col-span-3 space-y-8">
-                <SearchBar />
-                <CryptoChart />
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <Portfolio />
-                  <ExchangeCoins />
+          {dashboardMode === 'bexet' ? (
+            <BexetDashboard />
+          ) : (
+            <>
+              <Header />
+              <main className="container mx-auto px-6 py-8 relative">
+                <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
+                  {/* Main Content Area */}
+                  <div className="lg:col-span-3 space-y-8">
+                    <SearchBar />
+                    <CryptoChart />
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                      <Portfolio />
+                      <ExchangeCoins />
+                    </div>
+                  </div>
+                  
+                  {/* Sidebar */}
+                  <div className="lg:col-span-1 space-y-6">
+                    <ThemeToggle />
+                    <SideBar />
+                  </div>
                 </div>
-              </div>
-              
-              {/* Sidebar */}
-              <div className="lg:col-span-1 space-y-6">
-                <ThemeToggle />
-                <SideBar />
-              </div>
-            </div>
-          </main>
-          <Footer />
+              </main>
+              <Footer />
+            </>
+          )}
         </>
       )}
     </div>

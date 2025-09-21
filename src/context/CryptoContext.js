@@ -19,6 +19,7 @@ export const CryptoProvider = ({ children }) => {
   const [coinSearch, setCoinSearch] = useState("");
   const [selectedCoinForChart, setSelectedCoinForChart] = useState("");
   const [theme, setTheme] = useState("dark"); // dark, light, minimalist
+  const [dashboardMode, setDashboardMode] = useState("blocklens"); // blocklens, bexet
  
   const getCryptoData = useCallback(async () => {
     try {
@@ -119,7 +120,9 @@ export const CryptoProvider = ({ children }) => {
         selectedCoinForChart,
         setSelectedCoinForChart,
         theme,
-        setTheme
+        setTheme,
+        dashboardMode,
+        setDashboardMode
       }}
     >
       {children}

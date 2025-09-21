@@ -1,8 +1,11 @@
 import React from 'react'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useContext } from 'react'
+import { CryptoContext } from '../context/CryptoContext'
+import { DashboardModeToggle } from './DashboardModeToggle'
 
 export const Header = () => {
   const [currentTime, setCurrentTime] = useState(new Date())
+  const { dashboardMode } = useContext(CryptoContext)
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -33,8 +36,10 @@ export const Header = () => {
             </div>
           </div>
 
-          {/* Live Stats */}
+          {/* Dashboard Mode Toggle */}
           <div className="hidden md:flex items-center space-x-6">
+            <DashboardModeToggle />
+            <div className="w-px h-8 bg-white/20"></div>
             <div className="text-center">
               <p className="text-xs text-secondary-400 uppercase tracking-wide">Live Time</p>
               <p className="text-sm font-mono font-semibold text-white">
