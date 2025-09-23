@@ -4,7 +4,6 @@
   "description": "Professional cryptocurrency trading dashboard with real-time data, interactive charts, and modern UI/UX design",
   "private": true,
   "author": "MD Taufique Alam <iam.shamstaufique@gmail.com>",
-  "homepage": "https://github.com/mdtaufique-alam/BlockLens",
   "repository": {
     "type": "git",
     "url": "https://github.com/mdtaufique-alam/BlockLens.git"
