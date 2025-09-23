@@ -1,0 +1,16 @@
+{
+  "files": {
+    "main.css": "/BlockLens/static/css/main.eb13326b.css",
+    "main.js": "/BlockLens/static/js/main.abafb173.js",
+    "static/js/787.529f826d.chunk.js": "/BlockLens/static/js/787.529f826d.chunk.js",
+    "index.html": "/BlockLens/index.html",
+    "static/media/pagination-arrow.svg": "/BlockLens/static/media/pagination-arrow.b10e6c1b1a96286c93034fb4c539b782.svg",
+    "main.eb13326b.css.map": "/BlockLens/static/css/main.eb13326b.css.map",
+    "main.abafb173.js.map": "/BlockLens/static/js/main.abafb173.js.map",
+    "787.529f826d.chunk.js.map": "/BlockLens/static/js/787.529f826d.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.eb13326b.css",
+    "static/js/main.abafb173.js"
+  ]
+}
