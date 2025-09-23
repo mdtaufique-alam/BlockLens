@@ -1,7 +1,7 @@
 // API Configuration
 export const API_CONFIG = {
   // Replace this with your actual CoinGecko API key
-  COINGECKO_API_KEY: process.env.REACT_APP_COINGECKO_API_KEY || 'CG-aRQSKpsxefpQ38K9eVK2mUwX',
+  COINGECKO_API_KEY: process.env.REACT_APP_COINGECKO_API_KEY || '',
   BASE_URL: 'https://api.coingecko.com/api/v3',
   
   // Helper function to add API key to requests
