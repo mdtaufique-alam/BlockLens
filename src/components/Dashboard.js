@@ -9,7 +9,6 @@ import { SearchBar } from "./SearchBar";
 import { Footer } from "./footer";
 import { ThemeToggle } from "./ThemeToggle";
 import { DashboardModeToggle } from "./DashboardModeToggle";
-import { BexetDashboard } from "./BEXETDashboard";
 import { useState, useContext } from "react";
 import Lottie from "lottie-react";
 import { Header } from "./Header";
@@ -21,7 +20,7 @@ import * as success from "../assets/1127-success.json";
 function Dashboard() {
   const dispatch = useDispatch();
   const data = useSelector((state) => state.default);
-  const { theme, dashboardMode } = useContext(CryptoContext);
+  const { theme } = useContext(CryptoContext);
   const [loading, setLoading] = useState(undefined);
   const [completed, setCompleted] = useState(undefined);
 
@@ -88,9 +87,6 @@ function Dashboard() {
         </div>
       ) : (
         <>
-          {dashboardMode === 'bexet' ? (
-            <BexetDashboard />
-          ) : (
             <>
               <Header />
               <main className="container mx-auto px-6 py-8 relative">
@@ -114,7 +110,6 @@ function Dashboard() {
               </main>
               <Footer />
             </>
-          )}
         </>
       )}
     </div>
