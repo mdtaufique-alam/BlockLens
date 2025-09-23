@@ -9,7 +9,7 @@ import { SearchBar } from "./SearchBar";
 import { Footer } from "./footer";
 import { ThemeToggle } from "./ThemeToggle";
 import { DashboardModeToggle } from "./DashboardModeToggle";
-import { BexetDashboard } from "./BexetDashboard";
+import { BexetDashboard } from "./BEXETDashboard";
 import { useState, useContext } from "react";
 import Lottie from "lottie-react";
 import { Header } from "./Header";
